@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import 'dotenv';
+import React from "react";
+import socketIoClient from "socket.io-client";
+import Loader from "react-loader-spinner";
+import "./App.css";
+import Styled from 'styled-components';
+import CardView from "./components/CardView";
+import DailyView from "./components/dailyview/DailyView";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const MainCardWrapper = Styled.div`
+    display:flex;
+    flex-flow:row wrap;
+    justify-content: space-around;
+
+`
+
+
+class App extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      response: false,
+      endpoint: "localhost:5000"
+    };
+  }
+
+  componentDidMount() {
+    const { endpoint } = this.state;
+    const socket = socketIoClient(endpoint);
+    socket.on("FromAPI", data => {
+      this.setState({ response: data });
+    });
+  }
+
+  render() {
+    const { response } = this.state;
+    return (
+      <div className="App">
+        { response ? (
+          <MainCardWrapper>
+          <CardView title={'Time'} data={response}  />
+          <CardView title={'Temperature'} data={response}  />
+          <CardView title={'Humidity'} data={response}  />
+          <DailyView data={response.daily.data}/>
+          </MainCardWrapper>
+        ) : (
+          <h2>
+            <Loader type="Puff" color="#00BFFF" height={120} width={120} />
+          </h2>
+        )}
+      </div>
+    );
+  }
 }
 
 export default App;
