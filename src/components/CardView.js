@@ -4,10 +4,11 @@ import Styled from "styled-components";
 import { Doughnut } from "react-chartjs-2";
 
 const Cardwrapper = Styled.div`
-
     display: flex;
     flex-flow: column wrap;
+    align-items: center;
     justify-content: center;
+    text-align:center;
     width: 275px;
     height: 275px
     margin: 2% auto;
@@ -55,12 +56,12 @@ const ComponentCard = props => {
     switch (t) {
       case "Time":
         return( 
-        <>
-       <h1>{date}</h1>
+        <div>
+        <h1>{date}</h1>
         <h1>{time}</h1>
-        </>
+        </div>
         )
-        
+
       case "Temperature":
         return (
           <>
@@ -71,7 +72,6 @@ const ComponentCard = props => {
 
       case "Humidity":
         return (
-       
           <>
               <Doughnut
                 data={{
@@ -84,7 +84,7 @@ const ComponentCard = props => {
 
                           ],
                       backgroundColor: [
-                          "#FF6384",
+                          "#2ecc71",
                           "#FFF"
                           ]
                     }
@@ -105,7 +105,7 @@ const ComponentCard = props => {
 
   return (
     <Cardwrapper>
-    <div style={{felxFlow:'column wrap', justifyContent:'center'}}>
+    <div style={{flexFlow:'column wrap', justifyContent:'center', alignItems:'center'}}>
       <h1>{props.title}</h1>
       {returnBody(props.title)}
       </div>

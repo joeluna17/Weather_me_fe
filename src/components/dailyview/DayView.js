@@ -1,4 +1,21 @@
 import React from 'react';
+import Styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import  setWeatherIcon from '../../global/IconSetterHelper';
+
+
+const Dayviewwrapper = Styled.div`
+ flex-flow: column wrap;
+ justify-content:space-evenly;
+ margin-bottom: 2%;
+ width: 200px;
+ border: 1px solid black;
+ padding:2%;
+ border-radius: 8px;
+ box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2);
+ background-color:#2c3e50;
+ color:white;
+`;
 
 const convertDate = (ms) => {
    const convertedDate = new Date(ms)
@@ -7,16 +24,17 @@ const convertDate = (ms) => {
 
 
 const DayView = (props) => {
-    console.log("here tu go" ,convertDate(props.data.time))
+
     return(
-        <div style={{flexFlow:'column wrap', display:'flex', justifyContent:'center', width:'200px', height:'200px'}}>
-            <h3>{convertDate(props.data.time)}</h3>
-            <h3>{props.data.summary}</h3>
-            <h3>High: {Math.round(props.data.temperatureMax)}</h3>
-            <h3>Low: {Math.round(props.data.temperatureMin)}</h3>
-            <h3>Humidity: {Math.round(props.data.humidity * 100)}</h3>
-        </div>
-    )
+        <Dayviewwrapper>
+            <FontAwesomeIcon icon={setWeatherIcon(props.data.icon)} size="2x"/>
+            <h6>{convertDate(props.data.time)}</h6> 
+            <h6>{props.data.summary}</h6>
+            <h3>High: {Math.round(props.data.temperatureMax)}°F</h3>
+            <h3>Low: {Math.round(props.data.temperatureMin)}°F</h3>
+            <h3>Humidity: {Math.round(props.data.humidity * 100)}%</h3>
+        </Dayviewwrapper>
+        )
 }
 
 export default DayView;

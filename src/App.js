@@ -10,8 +10,7 @@ import DailyView from "./components/dailyview/DailyView";
 const MainCardWrapper = Styled.div`
     display:flex;
     flex-flow:row wrap;
-    justify-content: space-around;
-
+    justify-content: center;
 `
 
 
@@ -29,14 +28,16 @@ class App extends React.Component {
     const { endpoint } = this.state;
     const socket = socketIoClient(endpoint);
     socket.on("FromAPI", data => {
-      this.setState({ response: data });
+      this.setState({
+         response: data 
+        });
     });
   }
 
   render() {
     const { response } = this.state;
     return (
-      <div className="App">
+      <>
         { response ? (
           <MainCardWrapper>
           <CardView title={'Time'} data={response}  />
@@ -45,11 +46,11 @@ class App extends React.Component {
           <DailyView data={response.daily.data}/>
           </MainCardWrapper>
         ) : (
-          <h2>
+          <div style={{textAlign:'center', marginTop:'50vH'}}>
             <Loader type="Puff" color="#00BFFF" height={120} width={120} />
-          </h2>
+          </div>
         )}
-      </div>
+      </>
     );
   }
 }
